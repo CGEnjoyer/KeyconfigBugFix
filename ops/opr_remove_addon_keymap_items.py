@@ -7,14 +7,19 @@ class WM_OT_RemoveAddonKeymapItems(bpy.types.Operator):
     bl_label = "Remove All Addon Keys"
     bl_description = "Remove All Addon Keymap Items (until restart)"
 
+    blender_version = int((str(bpy.app.version[0])[:1]) + (str(bpy.app.version[1])[:1]))
+
     def execute(self, context):
         remove_addon_keymap_items()
         return {'FINISHED'}
 
     def invoke(self, context, event):
-        message = context.window_manager.invoke_confirm(self, event, title="Remove All Addon Keys?",
-                                                        message="Remove All Addon Keymap Items (until restart)",
-                                                        confirm_text="Remove", icon='WARNING')
+        if self.blender_version >= 41:
+            message = context.window_manager.invoke_confirm(self, event, title="Remove All Addon Keys?",
+                                                            message="Remove All Addon Keymap Items (until restart)",
+                                                            confirm_text="Remove", icon='WARNING')
+        else:
+            message = context.window_manager.invoke_confirm(self, event)
         return message
 
 
