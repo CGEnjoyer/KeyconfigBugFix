@@ -19,13 +19,13 @@ I have tested this addon on different versions and in different conditions, but 
 
 Edit > Preferences... > Save & Load Menu (USERPREF_MT_save_load)
 
-<img src="https://github.com/CGEnjoyer/KeyconfigBugFix/blob/ef50ba5294a4546a3ca0861a3a24b8c8e94b9d64/KeyconfigBugFix_screenshot_00.png" width="400">
+<img src="https://github.com/CGEnjoyer/src/blob/9b0d19b42c6542fa336641bd3848e44395671d1f/KeyconfigBugFix/src_KeyconfigBugFix_menu.png" width="400">
 
 ### Addon Preferences & Debug operator
 
 Edit > Preferences... > Add-ons > Keyconfig Bug Fix
 
-<img src="https://github.com/CGEnjoyer/KeyconfigBugFix/blob/ef50ba5294a4546a3ca0861a3a24b8c8e94b9d64/KeyconfigBugFix_screenshot_01.png" width="400">
+<img src="https://github.com/CGEnjoyer/src/blob/9b0d19b42c6542fa336641bd3848e44395671d1f/KeyconfigBugFix/src_KeyconfigBugFix_addonPrefs.png" width="400">
 
 ## Features
 
@@ -54,7 +54,7 @@ Removes all keys from addons that are added automatically when blender starts. A
 
 Show all addon keys which are currently active in the keyconfig
 
-<img src="https://github.com/CGEnjoyer/KeyconfigBugFix/blob/ef50ba5294a4546a3ca0861a3a24b8c8e94b9d64/KeyconfigBugFix_screenshot_02.png" width="400">
+<img src="https://github.com/CGEnjoyer/src/blob/9b0d19b42c6542fa336641bd3848e44395671d1f/KeyconfigBugFix/src_KeyconfigBugFix_checkKeys.png" width="400">
 
 ### Addon Preferences
 
