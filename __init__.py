@@ -15,7 +15,7 @@ from .ops import (opr_debug_check_addon_keys,
                   opr_restore_keyconfig,
                   opr_save_current_keyconfig)
 from .ui import (ui_addon_preferences,
-                 add_to_menu)
+                 ui_menu_add)
 
 
 classes = []
@@ -28,7 +28,7 @@ classes.extend([opr_remove_addon_keymap_items,
                 opr_save_current_keyconfig,
                 opr_debug_check_addon_keys,])
 #ui
-classes.extend([add_to_menu])
+classes.extend([ui_menu_add])
 
 
 def register():
