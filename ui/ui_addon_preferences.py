@@ -1,12 +1,24 @@
 import bpy
 from bpy.app.handlers import persistent
+from bl_keymap_utils import keymap_hierarchy
 from ..utils.utl_keymap_editing import remove_addon_keymap_items
+from ..ui.ui_keymap_preview import (keymap_hierarchy_generator, keymap_organize,
+                                    keyitem_preview, keyitem_prop_preview)
 from ..utils.utl_addon_preferences import get_addon_name
 
 class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
     bl_idname = get_addon_name()
 
+    tabs: bpy.props.EnumProperty(items=[("SETTINGS", "Settings", ""),
+                                        ("KEYMAPS", "Keymaps", "")],
+                                 default="SETTINGS")
+
+    tabs_km: bpy.props.EnumProperty(items=[("ADDONS", "Addons Keys", ""),
+                                           ("SAVED", "Saved", "")],
+                                    default="ADDONS")
+
     auto_remove_keys: bpy.props.BoolProperty(name="Auto Delete Addons Keys", default=False)
+
     menu_save_keyconfig: bpy.props.BoolProperty(name="Show Save Keyconfig", default=True)
     menu_save_keyconfig_as: bpy.props.BoolProperty(name="Show Save Keyconfig As...", default=True)
     menu_save_and_restore: bpy.props.BoolProperty(name="Show Save & Restore Keyconfig", default=True)
@@ -16,12 +28,19 @@ class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
     def draw(self, context):
         layout = self.layout
         row = layout.row()
+        row.prop(self, "tabs", expand=True)
+        layout.separator()
+
+        if self.tabs == 'SETTINGS':
+            self.draw_settings_tab(layout)
+        if self.tabs == 'KEYMAPS':
+            self.draw_kmaps_tab(layout)
+
+    def draw_settings_tab(self, layout):
+        row = layout.row()
         row.label(text="Delete all addon keys when blender launch")
         row = layout.row()
         row.prop(self, "auto_remove_keys")
-        row = layout.row()
-        row.operator("wm.debug_check_addon_keys")
-        layout.separator()
         row = layout.row()
         row.label(text="Displaying menu items")
         row = layout.row()
@@ -32,6 +51,52 @@ class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
         col = row.column()
         col.prop(self, "menu_restore_keyconfig")
         col.prop(self, "menu_remove_addon_keymap_items")
+
+    def draw_kmaps_tab(self, layout):
+        self.draw_keymaps_preview(layout)
+
+    def draw_keymaps_preview(self, layout):
+        kc_addon = bpy.context.window_manager.keyconfigs.addon
+        hierarchy = dict.fromkeys(keymap_hierarchy_generator(keymap_hierarchy.generate()))
+        kc_addon_names = [i.name for i in kc_addon.keymaps]
+        ordered_keymaps = keymap_organize(kc_addon_names, hierarchy)
+
+        for keymap in ordered_keymaps:
+            col = layout.column()
+            row = col.row()
+            row.prop(kc_addon.keymaps[keymap], "show_expanded_children", text="", emboss=False)
+            row.label(text=kc_addon.keymaps[keymap].name)
+            #row.label(icon='DECORATE')
+            #row.label(text=keymap)
+            for addon_keymap in kc_addon.keymaps:
+                if addon_keymap.name == keymap and addon_keymap.show_expanded_children:
+                    for item in addon_keymap.keymap_items:
+                        self.draw_keyitem_preview(layout, item)
+
+
+    def draw_keyitem_preview(self, layout, key):
+        col = layout.column()
+
+        if key.show_expanded:
+            col = col.column(align=True)
+            box = col.box()
+        else:
+            box = col.box()
+
+        split = box.split(factor=0.6)
+
+        row = split.row(align=True)
+        row.label(icon='DECORATE')
+        row.prop(key, "show_expanded", text="", emboss=False)
+        row.label(text=key.name)
+
+        row = split.row(align=True)
+        box = row.box()
+        box.label(text=f"{keyitem_preview(key)}")
+
+        if key.show_expanded:
+            box = col.box()
+            keyitem_prop_preview(key, box)
 
 
 @persistent
