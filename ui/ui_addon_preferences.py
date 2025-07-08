@@ -1,16 +1,18 @@
 import bpy
 from bpy.app.handlers import persistent
 from bl_keymap_utils import keymap_hierarchy
-from ..utils.utl_keymap_editing import remove_addon_keymap_items
+from ..utils.utl_keymap_editing import (remove_addon_keymap_items, keymap_items_copy)
 from ..ui.ui_keymap_preview import (keymap_hierarchy_generator, keymap_organize,
-                                    keyitem_preview, keyitem_prop_preview)
+                                    keyitem_prop_preview)
 from ..utils.utl_addon_preferences import get_addon_name
+from ..utils.utl_json import (keyconfig_to_json, json_to_keyconfig)
 
 class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
     bl_idname = get_addon_name()
 
     tabs: bpy.props.EnumProperty(items=[("SETTINGS", "Settings", ""),
-                                        ("KEYMAPS", "Keymaps", "")],
+                                        ("ADDONS_KEYMAPS", "Addons Keymaps", ""),
+                                        ("ADD_KEYS", "Add Keys", "")],
                                  default="SETTINGS")
 
     tabs_km: bpy.props.EnumProperty(items=[("ADDONS", "Addons Keys", ""),
@@ -33,8 +35,10 @@ class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
 
         if self.tabs == 'SETTINGS':
             self.draw_settings_tab(layout)
-        if self.tabs == 'KEYMAPS':
-            self.draw_kmaps_tab(layout)
+        if self.tabs == 'ADDONS_KEYMAPS':
+            self.draw_keymaps_tab(layout)
+        if self.tabs == 'ADD_KEYS':
+            self.draw_add_keys_tab(layout)
 
     def draw_settings_tab(self, layout):
         row = layout.row()
@@ -52,27 +56,29 @@ class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
         col.prop(self, "menu_restore_keyconfig")
         col.prop(self, "menu_remove_addon_keymap_items")
 
-    def draw_kmaps_tab(self, layout):
-        self.draw_keymaps_preview(layout)
 
-    def draw_keymaps_preview(self, layout):
-        kc_addon = bpy.context.window_manager.keyconfigs.addon
+    def draw_keymaps_tab(self, layout):
+        kc_addon_fix = bpy.context.window_manager.keyconfigs["kc_addon_fix"]
+
         hierarchy = dict.fromkeys(keymap_hierarchy_generator(keymap_hierarchy.generate()))
-        kc_addon_names = [i.name for i in kc_addon.keymaps]
-        ordered_keymaps = keymap_organize(kc_addon_names, hierarchy)
+        kc_addon_fix_names = [i.name for i in kc_addon_fix.keymaps]
+        ordered_keymaps = keymap_organize(kc_addon_fix_names, hierarchy)
 
         for keymap in ordered_keymaps:
             col = layout.column()
             row = col.row()
-            row.prop(kc_addon.keymaps[keymap], "show_expanded_children", text="", emboss=False)
-            row.label(text=kc_addon.keymaps[keymap].name)
-            #row.label(icon='DECORATE')
-            #row.label(text=keymap)
-            for addon_keymap in kc_addon.keymaps:
+            row.prop(kc_addon_fix.keymaps[keymap], "show_expanded_children", text="", emboss=False)
+            row.label(text=kc_addon_fix.keymaps[keymap].name)
+            for addon_keymap in kc_addon_fix.keymaps:
                 if addon_keymap.name == keymap and addon_keymap.show_expanded_children:
                     for item in addon_keymap.keymap_items:
                         self.draw_keyitem_preview(layout, item)
 
+        #TESTING
+        '''
+        keyconfig_to_json(kc_addon_fix)
+        json_to_keyconfig()
+        '''
 
     def draw_keyitem_preview(self, layout, key):
         col = layout.column()
@@ -92,15 +98,23 @@ class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
 
         row = split.row(align=True)
         box = row.box()
-        box.label(text=f"{keyitem_preview(key)}")
+        box.label(text=f"{key.to_string()}")
 
         if key.show_expanded:
             box = col.box()
             keyitem_prop_preview(key, box)
 
+    def draw_add_keys_tab(self, layout):
+        pass
+
 
 @persistent
 def kc_fix_load_handler(dummy):
+    kcs = bpy.context.window_manager.keyconfigs
+    kc_addon = kcs.addon
+    kc_addon_fix = kcs.new("kc_addon_fix")
+    keymap_items_copy(kc_addon, kc_addon_fix)
+    kcs.update()
     try:
         if bpy.context.preferences.addons[get_addon_name()].preferences['auto_remove_keys']:
             remove_addon_keymap_items()

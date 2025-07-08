@@ -41,7 +41,7 @@ def register():
 
     bpy.context.window_manager.keyconfigs.addon.keymaps.new(name='Window', space_type='EMPTY')
     kmi = bpy.context.window_manager.keyconfigs.addon.keymaps['Window'].keymap_items.new(
-        "wm.test_opr", type='W', value='PRESS', ctrl=True)
+        "wm.test_opr", type='W', value='CLICK_DRAG', ctrl=True, shift=True, alt=True, oskey=True, direction='SOUTH')
     kmi.properties.boolprop_m = True
     kmi.properties.boolvector_m = (True, True, False)
     kmi.properties.enumrop_m = 'scd_enum'
