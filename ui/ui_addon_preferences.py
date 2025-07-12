@@ -77,7 +77,7 @@ class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
         #TESTING
         '''
         keyconfig_to_json(kc_addon_fix)
-        json_to_keyconfig()
+        json_to_keyconfig(kc_addon_fix)
         '''
 
     def draw_keyitem_preview(self, layout, key):
@@ -92,7 +92,7 @@ class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
         split = box.split(factor=0.6)
 
         row = split.row(align=True)
-        row.label(icon='DECORATE')
+        row.prop(key, "active", text="", emboss=False)
         row.prop(key, "show_expanded", text="", emboss=False)
         row.label(text=key.name)
 
