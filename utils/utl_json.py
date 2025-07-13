@@ -37,20 +37,20 @@ def json_to_keyconfig(kc):
             continue
         for item in data[key]:
             value = data[key][item]
-            kmi = kc.keymaps[key].keymap_items[value['idname']]
-            if not value['idname'] == kmi.idname: continue
-            if not value['type'] == kmi.type: continue
-            if not value['value'] == kmi.value: continue
-            if not value['any'] == kmi.any: continue
-            if not value['shift'] == kmi.shift: continue
-            if not value['ctrl'] == kmi.ctrl: continue
-            if not value['alt'] == kmi.alt: continue
-            if not value['oskey'] == kmi.oskey: continue
-            if not value['hyper'] == kmi.hyper: continue
-            if not value['key_modifier'] == kmi.key_modifier: continue
-            if not value['direction'] == kmi.direction: continue
-            if not value['repeat'] == kmi.repeat: continue
-            kmi.active = False
+            for kmi in kc.keymaps[key].keymap_items:
+                if not value['idname'] == kmi.idname: continue
+                if not value['type'] == kmi.type: continue
+                if not value['value'] == kmi.value: continue
+                if not value['any'] == kmi.any: continue
+                if not value['shift'] == kmi.shift: continue
+                if not value['ctrl'] == kmi.ctrl: continue
+                if not value['alt'] == kmi.alt: continue
+                if not value['oskey'] == kmi.oskey: continue
+                if not value['hyper'] == kmi.hyper: continue
+                if not value['key_modifier'] == kmi.key_modifier: continue
+                if not value['direction'] == kmi.direction: continue
+                if not value['repeat'] == kmi.repeat: continue
+                kmi.active = False
 
 
 

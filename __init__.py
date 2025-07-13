@@ -12,7 +12,8 @@ bl_info = {
 from .ops import (opr_remove_addon_keymap_items,
                   opr_restore_keyconfig,
                   opr_save_current_keyconfig,
-                  opr_test)
+                  opr_test,
+                  opr_presets)
 from .ui import (ui_addon_preferences,
                  ui_menu_add)
 
@@ -25,7 +26,8 @@ classes.extend([ui_addon_preferences])
 classes.extend([opr_remove_addon_keymap_items,
                 opr_restore_keyconfig,
                 opr_save_current_keyconfig,
-                opr_test,])
+                opr_test,
+                opr_presets])
 #ui
 classes.extend([ui_menu_add])
 

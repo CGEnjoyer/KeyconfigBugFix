@@ -50,6 +50,8 @@ def register():
     kmi.properties.intprop_m = 19223
     kmi.properties.intvprop_m = (123, 543, 224132)
     kmi.properties.strprop_m = "WErefwe Weewwea"
+    kmi = bpy.context.window_manager.keyconfigs.addon.keymaps['Window'].keymap_items.new(
+        "wm.test_opr", type='D', value='CLICK_DRAG', ctrl=True, shift=True, alt=True, oskey=True, direction='SOUTH')
 
 def unregister():
     for c in reversed(classes):
