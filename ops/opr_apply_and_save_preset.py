@@ -4,8 +4,8 @@ from ..utils.utl_keymap_editing import apply_del_rule
 
 class WM_OT_SaveJSONPreset(bpy.types.Operator):
     bl_idname = "wm.save_json_preset"
-    bl_label = "Save Preset"
-    bl_description = "Save Preset"
+    bl_label = "Apply And Save Preset"
+    bl_description = "Apply And Save Preset"
 
     def execute(self, context):
         kc_addon_fix = bpy.context.window_manager.keyconfigs["kc_addon_fix"]

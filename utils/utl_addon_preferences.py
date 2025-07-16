@@ -9,7 +9,10 @@ def presets_makedir():
 
 
 def presets_get_path():
-    return os.path.join(bpy.utils.user_resource('SCRIPTS'), "presets", get_addon_name())
+    path = os.path.join(bpy.utils.user_resource('SCRIPTS'), "presets", get_addon_name())
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
 
 
 def get_addon_name():

@@ -22,6 +22,8 @@ def menu_add_draw_USERPREF_MT_save_load(self, context):
         self.layout.operator("wm.restore_keyconfig", text="Restore All Keymaps")
     if prefs.menu_remove_addon_keymap_items:
         self.layout.operator("wm.remove_addon_keymap_items", text="Remove All Addon Keys")
+    if prefs.menu_restore_addon_keymap_items:
+        self.layout.operator("wm.restore_addon_keymap_items", text="Restore All Addon Keys")
 
 
 def register():

@@ -13,7 +13,7 @@ from .ops import (opr_remove_addon_keymap_items,
                   opr_restore_keyconfig,
                   opr_save_current_keyconfig,
                   opr_test,
-                  opr_presets)
+                  opr_apply_and_save_preset)
 from .ui import (ui_addon_preferences,
                  ui_menu_add)
 
@@ -27,7 +27,7 @@ classes.extend([opr_remove_addon_keymap_items,
                 opr_restore_keyconfig,
                 opr_save_current_keyconfig,
                 opr_test,
-                opr_presets])
+                opr_apply_and_save_preset])
 #ui
 classes.extend([ui_menu_add])
 

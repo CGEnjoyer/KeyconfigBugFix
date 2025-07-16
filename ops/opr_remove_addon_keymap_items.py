@@ -1,5 +1,5 @@
 import bpy
-from ..utils.utl_keymap_editing import remove_addon_keymap_items
+from ..utils.utl_keymap_editing import (remove_addon_keymap_items, restore_addon_keymap_items)
 
 
 class WM_OT_RemoveAddonKeymapItems(bpy.types.Operator):
@@ -23,5 +23,15 @@ class WM_OT_RemoveAddonKeymapItems(bpy.types.Operator):
         return message
 
 
-classes = (WM_OT_RemoveAddonKeymapItems,)
+class WM_OT_RestoreAddonKeymapItems(bpy.types.Operator):
+    bl_idname = "wm.restore_addon_keymap_items"
+    bl_label = "Restore All Addon Keys"
+    bl_description = "Restore All Addon Keymap Items"
+
+    def execute(self, context):
+        restore_addon_keymap_items()
+        return {'FINISHED'}
+
+
+classes = (WM_OT_RemoveAddonKeymapItems, WM_OT_RestoreAddonKeymapItems)
 register, unregister = bpy.utils.register_classes_factory(classes)

@@ -4,7 +4,16 @@ import os
 from ..utils.utl_addon_preferences import presets_get_path
 
 
+def check_and_create_json():
+    path = os.path.join(presets_get_path(), "keymap_items_del.json")
+    if not os.path.exists(path):
+        print("lol")
+        file = open(path, "w", encoding="utf-8")
+        json.dump({}, file, indent=4)
+
+
 def keyconfig_to_json(kc):
+    check_and_create_json()
     data = {}
     with open(os.path.join(presets_get_path(), "keymap_items_del.json"), "w", encoding="utf-8") as file:
         for keymap in kc.keymaps:
@@ -29,6 +38,7 @@ def keyconfig_to_json(kc):
 
 
 def json_to_keyconfig(kc):
+    check_and_create_json()
     with open(os.path.join(presets_get_path(), "keymap_items_del.json"), "r", encoding="utf-8") as file:
         data = json.load(file)
 
