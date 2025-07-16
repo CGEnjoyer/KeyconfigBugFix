@@ -5,6 +5,10 @@ This addon helps to avoid the problem of duplicating hotkeys when saving a prese
 About issue: https://projects.blender.org/blender/blender-addons/issues/88518
 
 ## WARNING!
+### known issue:
+A bug may affect the Enable/Disable of other addons.
+To **fix problems** with enabling other addons, **restart Blender**
+[**About Bug**](https://github.com/CGEnjoyer/KeyconfigBugFix/issues/2#issue-3237466526)
 
 I have tested this addon on different versions and in different conditions, but I still recommend making a backup of all user settings before using it.
 
