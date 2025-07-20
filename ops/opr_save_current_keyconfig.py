@@ -5,7 +5,7 @@ from ..utils.utl_keymap_editing import (keymap_items_copy,
 
 
 class WM_OT_SaveCurrentKeyconfig(bpy.types.Operator):
-    bl_idname = "wm.save_current_keyconfig"
+    bl_idname = "wm.kbf_save_keyconfig"
     bl_label = "Save Keyconfig"
     bl_description = "Save active keyconfig without addon keys"
 
@@ -40,7 +40,7 @@ class WM_OT_SaveCurrentKeyconfig(bpy.types.Operator):
 
 
 class WM_OT_SaveCurrentKeyconfigAs(bpy.types.Operator):
-    bl_idname = "wm.save_current_keyconfig_as"
+    bl_idname = "wm.kbf_save_keyconfig_as"
     bl_label = "Save Keyconfig As..."
     bl_description = "Save active keyconfig with new name without addon keys"
 

@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Keyconfig Bug Fix",
     "author": "Vladimir Ilin (CGEnjoyer)",
-    "version": (1, 2, 0),
+    "version": (2, 0, 0),
     "description": "Fixes a bug where keys were duplicated when saving keyconfig",
     "location": "Preferences > Save & Load",
     "blender": (2, 80, 0),
@@ -12,7 +12,6 @@ bl_info = {
 from .ops import (opr_remove_addon_keymap_items,
                   opr_restore_keyconfig,
                   opr_save_current_keyconfig,
-                  opr_test,
                   opr_apply_and_save_preset)
 from .ui import (ui_addon_preferences,
                  ui_menu_add)
@@ -26,7 +25,6 @@ classes.extend([ui_addon_preferences])
 classes.extend([opr_remove_addon_keymap_items,
                 opr_restore_keyconfig,
                 opr_save_current_keyconfig,
-                opr_test,
                 opr_apply_and_save_preset])
 #ui
 classes.extend([ui_menu_add])
