@@ -1,16 +1,16 @@
 import bpy
-from ..utils.utl_keymap_editing import restore_all_keymaps
+from ..utils.utl_keymap_editing import restore_keyconfig
 
 
-class WM_OT_RestoreKeyconfig(bpy.types.Operator):
-    bl_idname = "wm.restore_keyconfig"
-    bl_label = "Restore All Keymaps"
+class KBF_OT_RestoreKeyconfig(bpy.types.Operator):
+    bl_idname = "kbf.restore_keyconfig"
+    bl_label = "Restore Keyconfig (All Keymaps)"
     bl_description = "Restore all keymaps to saved state"
 
     blender_version = int((str(bpy.app.version[0])[:1]) + (str(bpy.app.version[1])[:1]))
 
     def execute(self, context):
-        restore_all_keymaps()
+        restore_keyconfig()
         return {'FINISHED'}
 
     def invoke(self, context, event):
@@ -23,5 +23,5 @@ class WM_OT_RestoreKeyconfig(bpy.types.Operator):
         return message
 
 
-classes = (WM_OT_RestoreKeyconfig,)
+classes = (KBF_OT_RestoreKeyconfig,)
 register, unregister = bpy.utils.register_classes_factory(classes)

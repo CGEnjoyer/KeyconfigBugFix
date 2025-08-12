@@ -8,7 +8,7 @@ def remove_addon_keymap_items():
 
 
 def restore_addon_keymap_items():
-    kc = bpy.context.window_manager.keyconfigs['kc_addon_fix']
+    kc = bpy.context.window_manager.keyconfigs['addon_restore']
     kc_addons = bpy.context.window_manager.keyconfigs.addon
     remove_addon_keymap_items()
     keymap_items_copy(kc, kc_addons)
@@ -17,9 +17,9 @@ def restore_addon_keymap_items():
             item.active = True
 
 
-def restore_all_keymaps():
-    for keymap in bpy.context.window_manager.keyconfigs.default.keymaps:
-        keymap.restore_to_default()
+def restore_keyconfig():
+    for km in bpy.context.window_manager.keyconfigs.default.keymaps:
+        km.restore_to_default()
 
 
 def keymap_items_copy(source_keyconfig, target_keyconfig, only_active=False):

@@ -6,8 +6,9 @@ from ..utils.utl_keymap_editing import (remove_addon_keymap_items, keymap_items_
                                         restore_addon_keymap_items)
 from ..ui.ui_keymap_preview import (keymap_hierarchy_generator, keymap_organize,
                                     keyitem_prop_preview)
-from ..utils.utl_addon_preferences import (get_addon_name, presets_get_path)
-from ..utils.utl_json import (keyconfig_to_json, json_to_keyconfig)
+from ..utils.utl_directories_manager import (get_addon_name, get_presets_path, make_directory_presets,
+                                             make_json_presets)
+from ..utils.utl_json_presets import (keyconfig_to_preset_del, preset_to_keyconfig_del)
 
 class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
     bl_idname = get_addon_name()
@@ -57,7 +58,7 @@ class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
 
 
     def draw_keymaps_tab(self, layout):
-        kc_addon_fix = bpy.context.window_manager.keyconfigs["kc_addon_fix"]
+        kc_addon_fix = bpy.context.window_manager.keyconfigs['addon_restore']
 
         hierarchy = dict.fromkeys(keymap_hierarchy_generator(keymap_hierarchy.generate()))
         kc_addon_fix_names = [i.name for i in kc_addon_fix.keymaps]
@@ -65,7 +66,7 @@ class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
 
         col = layout.column()
         row = col.row()
-        row.operator("wm.save_json_preset")
+        row.operator("kbf.save_presets")
         for keymap in ordered_keymaps:
             col = layout.column()
             row = col.row()
@@ -107,15 +108,17 @@ class KeyconfigBugFixAddonPreferences(bpy.types.AddonPreferences):
 
 @persistent
 def kc_fix_load_handler(dummy):
+    make_directory_presets()
+    make_json_presets()
     kcs = bpy.context.window_manager.keyconfigs
-    kc_addons = kcs.addon
+    kca = kcs.addon
 
     try:
-        kcs['kc_addon_fix']
+        kcs['addon_restore']
     except:
-        kc_addon_fix = kcs.new("kc_addon_fix")
-        keymap_items_copy(kc_addons, kc_addon_fix)
-        json_to_keyconfig(kc_addon_fix)
+        kc_addon_fix = kcs.new('addon_restore')
+        keymap_items_copy(kca, kc_addon_fix)
+        preset_to_keyconfig_del(kc_addon_fix)
         apply_del_rule(kc_addon_fix)
 
     try:
